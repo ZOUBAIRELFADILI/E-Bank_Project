@@ -1,14 +1,12 @@
 package mundi.com.ebank_project_backend;
 
-import mundi.com.ebank_project_backend.entites.AccountOperation;
-import mundi.com.ebank_project_backend.entites.CurrentAccount;
-import mundi.com.ebank_project_backend.entites.Customer;
-import mundi.com.ebank_project_backend.entites.SavingAccount;
+import mundi.com.ebank_project_backend.entites.*;
 import mundi.com.ebank_project_backend.enums.AccountStatus;
 import mundi.com.ebank_project_backend.enums.OperationType;
 import mundi.com.ebank_project_backend.repositories.AccountOperationRepository;
 import mundi.com.ebank_project_backend.repositories.BankAccountRepository;
 import mundi.com.ebank_project_backend.repositories.CustomerRepository;
+import mundi.com.ebank_project_backend.services.BankService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,9 +23,15 @@ public class EbankProjectBackendApplication {
 
         SpringApplication.run(EbankProjectBackendApplication.class, args);
     }
+@Bean
+    CommandLineRunner commandLineRunner(BankService bankService){
+        return args -> {
+            //voir les infos sur account
+            bankService.consulter();
 
-
-    @Bean
+        };
+    }
+    //@Bean
     CommandLineRunner start(CustomerRepository customerRepository,
                             BankAccountRepository bankAccountRepository,
                             AccountOperationRepository accountOperationRepository) {
@@ -67,6 +71,7 @@ public class EbankProjectBackendApplication {
                     accountOperation.setBankAccount(acc);
                     accountOperationRepository.save(accountOperation);
                 }
+
             });
 
         };
